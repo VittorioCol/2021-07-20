@@ -8,6 +8,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import it.polito.tdp.yelp.model.Model;
+import it.polito.tdp.yelp.model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -38,13 +39,13 @@ public class FXMLController {
     private TextField txtX2; // Value injected by FXMLLoader
 
     @FXML // fx:id="cmbAnno"
-    private ComboBox<?> cmbAnno; // Value injected by FXMLLoader
+    private ComboBox<Integer> cmbAnno; // Value injected by FXMLLoader
 
     @FXML // fx:id="txtN"
     private TextField txtN; // Value injected by FXMLLoader
 
     @FXML // fx:id="cmbUtente"
-    private ComboBox<?> cmbUtente; // Value injected by FXMLLoader
+    private ComboBox<User> cmbUtente; // Value injected by FXMLLoader
 
     @FXML // fx:id="txtX1"
     private TextField txtX1; // Value injected by FXMLLoader
@@ -54,12 +55,16 @@ public class FXMLController {
 
     @FXML
     void doCreaGrafo(ActionEvent event) {
-
+    	txtResult.clear();
+    	model.CreaGrafo(Integer.parseInt(txtN.getText()),cmbAnno.getValue());
+    	txtResult.appendText("#Vertici: "+model.VerticiGrafo().size()+"\n"+"#Archi: "+model.ArchiGrafo().size());
+    	cmbUtente.getItems().addAll(model.VerticiGrafo());
     }
 
     @FXML
     void doUtenteSimile(ActionEvent event) {
-
+    	txtResult.clear();
+    	txtResult.appendText(model.UtentiConMaggiorGradoDiSimilarità(cmbUtente.getValue()).toString());
     }
     
     @FXML
@@ -84,5 +89,6 @@ public class FXMLController {
     
     public void setModel(Model model) {
     	this.model = model;
+    	cmbAnno.getItems().addAll(2005,2006,2007,2008,2009,2010,2011,2012,2013);
     }
 }
